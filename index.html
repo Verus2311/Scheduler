@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tee Green Spa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #27ae60;
+            --accent-color: #e74c3c;
+            --text-color: #2c3e50;
+            --light-bg: #f8f9fa;
+            --border-radius: 15px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), #34495e) !important;
+            padding: 1rem 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(44, 62, 80, 0.95) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand {
+            color: var(--secondary-color) !important;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+        }
+
+        .navbar-brand:hover {
+            color: #219a52 !important;
+            transform: translateY(-1px);
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            transform: translateY(-1px);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 0;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .hero-content .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color), #219a52);
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            animation: fadeInUp 1s ease 0.4s backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2));
+            transform: translateX(-100%);
+            transition: var(--transition);
+        }
+
+        .hero-content .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        .hero-content .btn-primary:hover::before {
+            transform: translateX(100%);
+        }
+
+        .about-section {
+            padding: 8rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-section::before,
+        .about-section::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .about-section::before {
+            top: -100px;
+            left: -100px;
+        }
+
+        .about-section::after {
+            bottom: -100px;
+            right: -100px;
+        }
+
+        .about-section h2 {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 2.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .about-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            border-radius: 3px;
+        }
+
+        .about-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .about-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-item i {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer span {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .about-section {
+                padding: 4rem 0;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-item {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-spa me-2"></i>Tee Green Spa
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="manage_appointment.html">Schedule</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin.html">Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Tee Green Spa</h1>
+            <a href="manage_appointment.html" class="btn btn-primary">
+                <i class="fas fa-calendar-alt me-2"></i>Schedule Appointment Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="about-section" id="services">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="about-content">
+                <div class="about-features">
+                    <div class="feature-item">
+                        <i class="fas fa-spa"></i>
+                        <h4>Triple Bogey Strokes</h4>
+                        <p>1hr & 15 mins - ₱599.00</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-spa"></i>
+                        <h4>Hole-in-One Strokes</h4>
+                        <p>50 mins - ₱399.00</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-spa"></i>
+                        <h4>Par Strokes</h4>
+                        <p>50 mins - ₱350.00</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-spa"></i>
+                        <h4>Eagle Strokes</h4>
+                        <p>50 mins - ₱599.00</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-spa"></i>
+                        <h4>Condor Stroke</h4>
+                        <p>2 hours - ₱999.00</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-spa"></i>
+                        <h4>Body Scrub</h4>
+                        <p>30 mins - ₱350.00</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-spa"></i>
+                        <h4>Body Scrub w/ full body massage</h4>
+                        <p>1 hr & 20 mins - ₱799.00</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-spa"></i>
+                        <h4>Hot Compress or Ear Candle w/ full body massage</h4>
+                        <p>1 hr & 10 mins - ₱449.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2>About Us</h2>
+            <div class="about-content">
+                <div class="about-card">
+                    <p class="text-center">
+                        Welcome to Tee Green Spa, where relaxation and rejuvenation meet luxury and care. Our mission is to provide a serene, tranquil environment where you can escape
+                        from the stresses of everyday life and indulge in a truly transformative experience.
+                    </p>
+                </div>
+                <div class="about-card">
+                    <p class="text-center">
+                        We believe in the power of self-care, so we offer a wide range of services designed to nurture your body, mind, and spirit. From soothing massages and revitalizing
+                        facials to rejuvenating body treatments, our expert therapists and estheticians are here to help you unwind and feel your best.
+                    </p>
+                </div>
+                <div class="about-card">
+                    <p class="text-center">
+                        At Tee Green Spa, we use only the finest products and the latest techniques to ensure that each visit is extraordinary. Whether you're here for a quick getaway or a
+                        day of pampering, we are dedicated to providing personalized care that leaves you feeling refreshed, balanced, and completely renewed.
+                    </p>
+                </div>
+                <div class="about-features">
+                    <div class="feature-item">
+                        <i class="fas fa-spa"></i>
+                        <h4>Premium Services</h4>
+                        <p>Experience luxury treatments with our expert therapists</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Natural Products</h4>
+                        <p>We use only the finest organic and natural products</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-heart"></i>
+                        <h4>Personalized Care</h4>
+                        <p>Tailored treatments to meet your specific needs</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <span>&copy; TGS 2025</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
