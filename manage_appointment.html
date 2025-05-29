@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Appointment - Tee Green Spa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #27ae60;
+            --accent-color: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--primary-color);
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: var(--primary-color) !important;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: var(--secondary-color) !important;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            color: #219a52 !important;
+            transform: translateY(-1px);
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            transform: translateY(-1px);
+        }
+
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 20px 20px 0 0 !important;
+            padding: 1.8rem;
+        }
+
+        .card-header h4 {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .form-label {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid #e9ecef;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(39, 174, 96, 0.15);
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: #219a52;
+            border-color: #219a52;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(44, 62, 80, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background-color: #1a252f;
+            border-color: #1a252f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 62, 80, 0.3);
+        }
+
+        .service-item {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-item.removing {
+            animation: slideOut 0.3s ease-out;
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+        }
+
+        .therapist-badge {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 0.8rem;
+            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.2);
+        }
+
+        .back-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--secondary-color);
+            transform: translateX(-5px);
+        }
+
+        .back-link i {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .alert {
+            border-radius: 15px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+
+        .loading-spinner {
+            color: var(--secondary-color);
+            width: 3rem;
+            height: 3rem;
+        }
+
+        .content-container {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .content-container.loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        #add-service {
+            position: relative;
+        }
+
+        #add-service[disabled] {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        #add-service[disabled]::after {
+            content: "Maximum 3 services allowed";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            margin-bottom: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        #add-service[disabled]:hover::after {
+            opacity: 1;
+        }
+
+        .same-therapist {
+            background-color: #e8f5e9 !important;
+            border-color: #4caf50 !important;
+        }
+        .therapist-select {
+            transition: all 0.3s ease;
+        }
+
+        .success-animation {
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .progress {
+            background-color: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            transition: width 1s linear;
+        }
+
+        .modal-content {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            padding: 1.5rem 1.5rem 0.5rem;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .text-success {
+            color: var(--secondary-color) !important;
+        }
+
+        .bg-success {
+            background-color: var(--secondary-color) !important;
+        }
+
+        .form-select {
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            box-shadow: 0 0 0 0.25rem rgba(39, 174, 96, 0.25);
+        }
+
+        .form-select.bg-warning {
+            background-color: #ffc107 !important; /* Yellow */
+            color: #000 !important;
+        }
+
+        .form-select.bg-success {
+            background-color: #27ae60 !important; /* Green */
+            color: white !important;
+        }
+
+        .form-select.bg-danger {
+            background-color: #e74c3c !important; /* Red */
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-spa me-2"></i>Tee Green Spa
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin.html">Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+
+        <div class="row justify-content-center content-container">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0" id="form-title">New Appointment</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="appointment-form">
+                            <!-- Personal Information -->
+                            <h5 class="mb-4">Personal Information</h5>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="contact" class="form-label">Contact Number</label>
+                                    <input type="tel" class="form-control" id="contact" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="age" class="form-label">Age</label>
+                                    <input type="number" class="form-control" id="age" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="gender" class="form-label">Gender</label>
+                                    <select class="form-control" id="gender" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Appointment Information -->
+                            <h5 class="mb-4 mt-5">Appointment Information</h5>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="date_sched" class="form-label">Schedule</label>
+                                    <input type="datetime-local" class="form-control" id="date_sched" required>
+                                </div>
+                            </div>
+
+                            <!-- Services -->
+                            <h5 class="mb-4 mt-5">Services & Therapists</h5>
+                            <div id="services-container">
+                                <div class="service-item row g-3 align-items-center">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Service</label>
+                                        <select class="form-select service-select" name="services[]" required aria-label="Select a service">
+                                            <option value="">Select Service</option>
+                                            <option value="Triple Bogey Strokes" data-duration="75">Triple Bogey Strokes (1hr & 15 mins ₱599.00)</option>
+                                            <option value="Hole-in-One Strokes" data-duration="50">Hole-in-One Strokes (50 mins ₱399.00)</option>
+                                            <option value="Par Strokes" data-duration="50">Par Strokes (50 mins ₱350.00)</option>
+                                            <option value="Eagle Strokes" data-duration="50">Eagle Strokes (50 mins ₱599.00)</option>
+                                            <option value="Condor Stroke" data-duration="120">Condor Stroke (2 hours ₱999.00)</option>
+                                            <option value="Body Scrub" data-duration="30">Body Scrub (30mins ₱350.00)</option>
+                                            <option value="Body Scrub w/ full body massage" data-duration="80">Body Scrub w/ full body massage (₱799.00 1 hr & 20 mins)</option>
+                                            <option value="Hot Compress or Ear Candle w/ full body massage" data-duration="70">Hot Compress or Ear Candle w/ full body massage (₱449 1 hr & 10 mins)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5 mb-3">
+                                        <label class="form-label">Therapist</label>
+                                        <select class="form-select therapist-select" name="therapist[]" required aria-label="Select a therapist">
+                                            <option value="">Select Therapist</option>
+                                            <option value="Valerie">Valerie</option>
+                                            <option value="Vanessa">Vanessa</option>
+                                            <option value="Satchie">Satchie</option>
+                                            <option value="Bella">Bella</option>
+                                            <option value="Kimmy">Kimmy</option>
+                                            <option value="Xander">Xander</option>
+                                            <option value="ian">ian</option>
+                                            <option value="MC">MC</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 mb-3 d-flex align-items-end">
+                                        <button type="button" class="btn btn-danger btn-sm remove-service" aria-label="Remove service"><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary mb-4" id="add-service">
+                                <i class="fas fa-plus"></i> Add Another Service
+                            </button>
+
+                            <!-- Ailment -->
+                            <div class="mb-4">
+                                <label for="ailment" class="form-label">Ailment/Concern</label>
+                                <textarea class="form-control" id="ailment" rows="3" required></textarea>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i> Submit Appointment
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="successModalLabel">Success!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="success-animation mb-4">
+                        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h4 class="mb-3">Appointment Submitted Successfully!</h4>
+                    <p class="text-muted mb-4">Your appointment has been scheduled. You will be redirected shortly...</p>
+                    <div class="progress" style="height: 4px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Appointment Database -->
+    <script type="module">
+        import appointmentDB from './appointment-db.js';
+
+        // Function to show loading spinner
+        function showLoading() {
+            const spinner = document.createElement('div');
+            spinner.id = 'loading-overlay';
+            spinner.innerHTML = '<div class="spinner-border loading-spinner" role="status"><span class="visually-hidden">Loading...</span></div>';
+            document.body.appendChild(spinner);
+            document.querySelector('.content-container').classList.add('loading');
+        }
+
+        // Function to hide loading spinner
+        function hideLoading() {
+            const spinner = document.getElementById('loading-overlay');
+            if (spinner) spinner.remove();
+            document.querySelector('.content-container').classList.remove('loading');
+        }
+
+        // Function to show alert
+        function showAlert(message, type = 'success') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.querySelectorAll('.card-body .alert').forEach(alert => alert.remove());
+            document.querySelector('.card-body').insertBefore(alertDiv, document.querySelector('form'));
+        }
+
+        // Cache DOM elements for better performance
+        const formElements = {
+            form: document.getElementById('appointment-form'),
+            name: document.getElementById('name'),
+            contact: document.getElementById('contact'),
+            age: document.getElementById('age'),
+            gender: document.getElementById('gender'),
+            date_sched: document.getElementById('date_sched'),
+            ailment: document.getElementById('ailment'),
+            servicesContainer: document.getElementById('services-container'),
+            addServiceButton: document.getElementById('add-service')
+        };
+
+        // Service durations map
+        const serviceDurations = new Map([
+            ['Triple Bogey Strokes', 75],
+            ['Hole-in-One Strokes', 50],
+            ['Par Strokes', 50],
+            ['Eagle Strokes', 50],
+            ['Condor Stroke', 120],
+            ['Body Scrub', 30],
+            ['Body Scrub w/ full body massage', 80],
+            ['Hot Compress or Ear Candle w/ full body massage', 70]
+        ]);
+
+        // Optimized form submission
+        formElements.form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            showLoading();
+
+            try {
+                // Quick validation without DOM queries
+                const formData = getFormData();
+                if (!formData.name || !formData.contact || !formData.age || !formData.gender || !formData.date_sched || !formData.services.length) {
+                    showAlert('Please fill in all required fields', 'warning');
+                    submitButton.disabled = false;
+                    hideLoading();
+                    return;
+                }
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const appointmentId = urlParams.get('id');
+                const fromAdmin = urlParams.get('from') === 'admin';
+
+                // Save to database
+                try {
+                    let savedAppointment;
+                    if (appointmentId) {
+                        savedAppointment = appointmentDB.updateAppointment(appointmentId, formData);
+                    } else {
+                        savedAppointment = appointmentDB.addAppointment(formData);
+                    }
+
+                    // Show success modal with animation
+                    hideLoading();
+                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    successModal.show();
+
+                    // Animate progress bar
+                    const progressBar = document.querySelector('.progress-bar');
+                    progressBar.style.width = '0%';
+                    setTimeout(() => {
+                        progressBar.style.width = '100%';
+                    }, 100);
+
+                    // Redirect based on context
+                    setTimeout(() => {
+                        if (fromAdmin) {
+                            window.location.href = 'admin.html';
+                        } else if (appointmentId) {
+                            window.location.href = 'index.html';
+                        } else {
+                            window.location.href = `view_details.html?id=${savedAppointment.id}`;
+                        }
+                    }, 2000);
+
+                } catch (error) {
+                    console.error('Error saving appointment:', error);
+                    showAlert('Error saving appointment: ' + error.message, 'danger');
+                    submitButton.disabled = false;
+                    hideLoading();
+                }
+            } catch (error) {
+                console.error('Error in form submission:', error);
+                showAlert('An error occurred: ' + error.message, 'danger');
+                submitButton.disabled = false;
+                hideLoading();
+            }
+        });
+
+        // Optimized form data collection
+        function getFormData() {
+            const services = [];
+            const therapists = [];
+            const serviceItems = document.querySelectorAll('.service-item');
+            
+            serviceItems.forEach(item => {
+                const serviceSelect = item.querySelector('.service-select');
+                const therapistSelect = item.querySelector('.therapist-select');
+                const service = serviceSelect.value;
+                const therapist = therapistSelect.value;
+
+                if (service && therapist) {
+                    services.push({
+                        name: service,
+                        duration: serviceDurations.get(service) || 0
+                    });
+                    therapists.push(therapist);
+                }
+            });
+
+            return {
+                name: formElements.name.value.trim(),
+                contact: formElements.contact.value.trim(),
+                age: parseInt(formElements.age.value),
+                gender: formElements.gender.value,
+                date_sched: formElements.date_sched.value,
+                services: services,
+                therapists: therapists,
+                ailment: formElements.ailment.value.trim(),
+                created_at: new Date().toISOString(),
+                status: 'pending'
+            };
+        }
+
+        // Function to populate form with existing data
+        function populateForm(appointmentId) {
+            showLoading();
+            try {
+                const appointment = appointmentDB.getAppointment(appointmentId);
+                if (appointment) {
+                    document.getElementById('form-title').textContent = 'Edit Appointment';
+                    
+                    // Populate form fields
+                    document.getElementById('name').value = appointment.name;
+                    document.getElementById('contact').value = appointment.contact;
+                    document.getElementById('age').value = appointment.age;
+                    document.getElementById('gender').value = appointment.gender;
+                    document.getElementById('date_sched').value = appointment.date_sched.substring(0, 16);
+                    document.getElementById('ailment').value = appointment.ailment;
+
+                    // Clear existing service items
+                    const container = document.getElementById('services-container');
+                    container.innerHTML = '';
+
+                    // Add service items
+                    if (Array.isArray(appointment.services) && Array.isArray(appointment.therapists)) {
+                        appointment.services.forEach((service, index) => {
+                            addServiceItem(service.name, appointment.therapists[index]);
+                        });
+
+                        if (appointment.services.length >= 3) {
+                            document.getElementById('add-service').disabled = true;
+                        }
+                    }
+                } else {
+                    showAlert('Appointment not found!', 'danger');
+                    setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+                }
+            } catch (error) {
+                console.error('Error loading appointment:', error);
+                showAlert('Error loading appointment details: ' + error.message, 'danger');
+                setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Function to add a new service item
+        function addServiceItem(selectedService = '', selectedTherapist = '') {
+            const container = document.getElementById('services-container');
+            const serviceItem = document.createElement('div');
+            serviceItem.className = 'service-item row g-3 align-items-center';
+            serviceItem.innerHTML = `
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Service</label>
+                    <select class="form-select service-select" name="services[]" required>
+                        <option value="">Select Service</option>
+                        <option value="Triple Bogey Strokes" data-duration="75" ${selectedService === 'Triple Bogey Strokes' ? 'selected' : ''}>Triple Bogey Strokes (1hr & 15 mins ₱599.00)</option>
+                        <option value="Hole-in-One Strokes" data-duration="50" ${selectedService === 'Hole-in-One Strokes' ? 'selected' : ''}>Hole-in-One Strokes (50 mins ₱399.00)</option>
+                        <option value="Par Strokes" data-duration="50" ${selectedService === 'Par Strokes' ? 'selected' : ''}>Par Strokes (50 mins ₱350.00)</option>
+                        <option value="Eagle Strokes" data-duration="50" ${selectedService === 'Eagle Strokes' ? 'selected' : ''}>Eagle Strokes (50 mins ₱599.00)</option>
+                        <option value="Condor Stroke" data-duration="120" ${selectedService === 'Condor Stroke' ? 'selected' : ''}>Condor Stroke (2 hours ₱999.00)</option>
+                        <option value="Body Scrub" data-duration="30" ${selectedService === 'Body Scrub' ? 'selected' : ''}>Body Scrub (30mins ₱350.00)</option>
+                        <option value="Body Scrub w/ full body massage" data-duration="80" ${selectedService === 'Body Scrub w/ full body massage' ? 'selected' : ''}>Body Scrub w/ full body massage (₱799.00 1 hr & 20 mins)</option>
+                        <option value="Hot Compress or Ear Candle w/ full body massage" data-duration="70" ${selectedService === 'Hot Compress or Ear Candle w/ full body massage' ? 'selected' : ''}>Hot Compress or Ear Candle w/ full body massage (₱449 1 hr & 10 mins)</option>
+                    </select>
+                </div>
+                <div class="col-md-5 mb-3">
+                    <label class="form-label">Therapist</label>
+                    <select class="form-select therapist-select" name="therapist[]" required>
+                        <option value="">Select Therapist</option>
+                        <option value="Valerie" ${selectedTherapist === 'Valerie' ? 'selected' : ''}>Valerie</option>
+                        <option value="Vanessa" ${selectedTherapist === 'Vanessa' ? 'selected' : ''}>Vanessa</option>
+                        <option value="Satchie" ${selectedTherapist === 'Satchie' ? 'selected' : ''}>Satchie</option>
+                        <option value="Bella" ${selectedTherapist === 'Bella' ? 'selected' : ''}>Bella</option>
+                        <option value="Kimmy" ${selectedTherapist === 'Kimmy' ? 'selected' : ''}>Kimmy</option>
+                        <option value="Xander" ${selectedTherapist === 'Xander' ? 'selected' : ''}>Xander</option>
+                        <option value="ian" ${selectedTherapist === 'ian' ? 'selected' : ''}>ian</option>
+                        <option value="MC" ${selectedTherapist === 'MC' ? 'selected' : ''}>MC</option>
+                    </select>
+                </div>
+                <div class="col-md-1 mb-3 d-flex align-items-end">
+                    <button type="button" class="btn btn-danger btn-sm remove-service"><i class="fas fa-times"></i></button>
+                </div>
+            `;
+            container.appendChild(serviceItem);
+
+            // Add event listener for remove button
+            const removeButton = serviceItem.querySelector('.remove-service');
+            removeButton.addEventListener('click', function() {
+                serviceItem.remove();
+                updateRemoveButtons();
+                if (container.querySelectorAll('.service-item').length < 3) {
+                    document.getElementById('add-service').disabled = false;
+                }
+            });
+
+            updateRemoveButtons();
+        }
+
+        // Add service button click handler
+        document.getElementById('add-service').addEventListener('click', function() {
+            addServiceItem();
+            if (document.querySelectorAll('.service-item').length >= 3) {
+                this.disabled = true;
+            }
+        });
+
+        // Function to update remove button visibility
+        function updateRemoveButtons() {
+            const serviceItems = document.querySelectorAll('.service-item');
+            if (serviceItems.length === 1) {
+                const firstServiceItem = serviceItems[0];
+                const removeButton = firstServiceItem.querySelector('.remove-service');
+                const therapistCol = firstServiceItem.querySelector('.col-md-5');
+                
+                if (removeButton) removeButton.style.display = 'none';
+                if (therapistCol) {
+                    therapistCol.classList.remove('col-md-5');
+                    therapistCol.classList.add('col-md-6');
+                }
+            } else {
+                serviceItems.forEach(item => {
+                    const removeButton = item.querySelector('.remove-service');
+                    const therapistCol = item.querySelector('.col-md-5');
+                    
+                    if (removeButton) removeButton.style.display = 'flex';
+                    if (therapistCol) {
+                        therapistCol.classList.remove('col-md-6');
+                        therapistCol.classList.add('col-md-5');
+                    }
+                });
+            }
+        }
+
+        // Initialize the page
+        function initializePage() {
+            // Set minimum date for date picker to today
+            const today = new Date().toISOString().split('T')[0];
+            formElements.date_sched.min = today;
+            
+            // Check if editing existing appointment
+            const urlParams = new URLSearchParams(window.location.search);
+            const appointmentId = urlParams.get('id');
+            
+            if (appointmentId) {
+                populateForm(appointmentId);
+            } else {
+                // Add initial service item for new appointment
+                addServiceItem();
+            }
+        }
+
+        // Call initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializePage);
+        } else {
+            initializePage();
+        }
+
+        // Add event listener for status select
+        document.getElementById('status').addEventListener('change', function() {
+            const status = this.value;
+            this.className = 'form-select';
+            switch(status.toLowerCase()) {
+                case 'pending':
+                    this.classList.add('bg-warning');
+                    break;
+                case 'confirmed':
+                    this.classList.add('bg-success');
+                    break;
+                case 'cancelled':
+                    this.classList.add('bg-danger');
+                    break;
+            }
+        });
+    </script>
+</body>
+</html> 
